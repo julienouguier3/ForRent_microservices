@@ -3,19 +3,19 @@ package com.forrent.Reservation.model;
 import javax.persistence.*;
 import java.util.Calendar;
 
-@Entity
+@Entity //represents a table stored in a database
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO) //indicates that the primary key is generated automatically during the insertion in the database
     private int id;
     @Column
     private Calendar start_date;
     @Column
     private Calendar end_date;
     @Column
-    private float estimated_km;
+    private Float estimated_km;
     @Column
-    private float total_price;
+    private Float total_price;
     @Column
     private int id_vehicles;
     @Column
@@ -25,7 +25,7 @@ public class Reservation {
     public Reservation() {
 
     }
-    public Reservation(int id, Calendar start_date, Calendar end_date, float estimated_km, float total_price, int id_vehicles, int id_customers) {
+    public Reservation(int id, Calendar start_date, Calendar end_date, Float estimated_km, Float total_price, int id_vehicles, int id_customers) {
         this.id = id;
         this.start_date = start_date;
         this.end_date = end_date;
@@ -59,19 +59,19 @@ public class Reservation {
         this.end_date = end_date;
     }
 
-    public float getEstimated_km() {
+    public Float getEstimated_km() {
         return estimated_km;
     }
 
-    public void setEstimated_km(float estimated_km) {
+    public void setEstimated_km(Float estimated_km) {
         this.estimated_km = estimated_km;
     }
 
-    public float getTotal_price() {
+    public Float getTotal_price() {
         return total_price;
     }
 
-    public void setTotal_price(float total_price) {
+    public void setTotal_price(Float total_price) {
         this.total_price = total_price;
     }
 
@@ -91,7 +91,7 @@ public class Reservation {
         this.id_customers = id_customers;
     }
 
-    @Override
+    @Override //define a method that is inherited from the parent class
     public String toString() {
         return "Reservation{" +
                 "id=" + id +

@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@RestController //
+@RestController //simply returns the object and the object data is written directly to the HTTP response as JSON
 @RequestMapping("/customers") //WARNING : /!\ Avoid redundancy /!\
 public class CustomerController {
 
@@ -42,7 +42,7 @@ public class CustomerController {
     @PostMapping()
     public Customer add(@RequestBody Customer customer) {
         String license = customer.getLicenseNumber();
-        String url = "http://localhost:8081/licenses/" + license;
+        String url = "http://licenses-service/licenses/" + license;
         Boolean response = restTemplate.getForObject(url, Boolean.class);
         if (Boolean.TRUE.equals(response)) {
             return customerDao.save(customer);
