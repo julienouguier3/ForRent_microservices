@@ -2,6 +2,7 @@ package com.carrent.ForRent.web.controller;
 
 import com.carrent.ForRent.dao.CustomerDao;
 import com.carrent.ForRent.model.Customer;
+import com.carrent.ForRent.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,11 +20,13 @@ public class CustomerController {
 
     private final CustomerDao customerDao;
     private final RestTemplate restTemplate;
+    private final CustomerService customerService;
 
     @Autowired //allows you to activate the automatic dependency injection
-    public CustomerController(CustomerDao customerDao, RestTemplate restTemplate) {
+    public CustomerController(CustomerDao customerDao, RestTemplate restTemplate, CustomerService customerService) {
         this.customerDao = customerDao;
         this.restTemplate = restTemplate;
+        this.customerService = customerService;
     }
 
 
@@ -43,12 +46,13 @@ public class CustomerController {
     public Customer add(@RequestBody Customer customer) {
         String license = customer.getLicenseNumber();
         String url = "http://licenses-service/licenses/" + license;
-        Boolean response = restTemplate.getForObject(url, Boolean.class);
-        if (Boolean.TRUE.equals(response)) {
-            return customerDao.save(customer);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Passe ton permis bordel !");
-        }
+        throw new ResponseStatusException(HttpStatus.OK, "Year : " + customerService.ageOfCustomer(customer.getDateOfBirth()));
+//        Boolean response = restTemplate.getForObject(url, Boolean.class);
+//        if (Boolean.TRUE.equals(response)) {
+//            return customerDao.save(customer);
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Passe ton permis bordel !");
+//        }
     }
 
     @PutMapping()
@@ -64,6 +68,8 @@ public class CustomerController {
 
     @GetMapping("/filter_by/{variable}")
     public List<Customer> filterVariables(@PathVariable String variable) {
+
         return customerDao.findByLastnameOrLicenseNumber(variable, variable);
     }
+
 }

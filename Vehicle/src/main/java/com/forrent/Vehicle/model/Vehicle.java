@@ -1,8 +1,6 @@
 package com.forrent.Vehicle.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
@@ -31,8 +29,12 @@ public class Vehicle {
     private int cylinder;
     @Column
     private int trunkSpace;
+    @JoinColumn
+    @ManyToOne(targetEntity = Category.class)
+    private Category category;
 
-    public Vehicle(int id, String description, String registration, String brand, int priceReservation, int horsePower, int kilometers, Calendar year, String fuel, int cylinder, int trunkSpace) {
+
+    public Vehicle(int id, String description, String registration, String brand, int priceReservation, int horsePower, int kilometers, Calendar year, String fuel, int cylinder, int trunkSpace, Category category) {
         this.id = id;
         this.description = description;
         this.registration = registration;
@@ -44,10 +46,15 @@ public class Vehicle {
         this.fuel = fuel;
         this.cylinder = cylinder;
         this.trunkSpace = trunkSpace;
+        this.category = category;
     }
 
     public Vehicle() {
 
+    }
+
+    public Vehicle(Category category) {
+        this.category = category;
     }
 
     public int getId() {
@@ -138,9 +145,30 @@ public class Vehicle {
         this.trunkSpace = trunkSpace;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
-        return "Vehicle{" + "id=" + id + ", description='" + description + '\'' + ", registration='" + registration + '\'' + ", brand='" + brand + '\'' + ", priceReservation=" + priceReservation + ", horsePower=" + horsePower + ", kilometers=" + kilometers + ", year=" + year + ", fuel=" + fuel + ", cylinder=" + cylinder + ", trunkSpace=" + trunkSpace + '}';
+        return "Vehicle{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", registration='" + registration + '\'' +
+                ", brand='" + brand + '\'' +
+                ", priceReservation=" + priceReservation +
+                ", horsePower=" + horsePower +
+                ", kilometers=" + kilometers +
+                ", year=" + year +
+                ", fuel='" + fuel + '\'' +
+                ", cylinder=" + cylinder +
+                ", trunkSpace=" + trunkSpace +
+                ", category=" + category +
+                '}';
     }
 }
 
